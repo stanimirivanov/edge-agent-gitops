@@ -1,0 +1,26 @@
+[project]
+name = "edge-agent-gitops"
+version = "0.1.0"
+description = "Reviewed GitOps desired state for EdgeAgent environments"
+requires-python = ">=3.13,<3.14"
+dependencies = []
+
+[dependency-groups]
+dev = ["ruff==0.16.8", "ty==0.0.81"]
+
+[tool.uv]
+package = false
+required-version = "==0.12.18"
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "UP", "B"]
+
+[tool.ty.src]
+include = ["scripts", "tests"]
+
+[tool.ty.terminal]
+error-on-warning = true
