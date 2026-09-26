@@ -1,0 +1,45 @@
+# Operating-system and IDE-local state
+.DS_Store
+Thumbs.db
+/.idea/
+/.vscode/
+*.iml
+
+# Local credentials and cluster access
+.env
+.env.*
+!.env.example
+/.local/
+*.kubeconfig
+kubeconfig
+
+# Rendered, generated, and temporary deployment output
+/.rendered/
+/.reports/
+*.tmp
+*.log
+
+# Secret-bearing or encrypted-tool working state
+*.agekey
+*.dec
+secrets.local.*
+
+# Python tooling
+/.venv/
+/.uv-cache/
+/.uv-python/
+/.uv-tools/
+/.ruff_cache/
+/.mypy_cache/
+/.pytest_cache/
+__pycache__/
+*.py[cod]
+.coverage
+htmlcov/
+
+# Terraform/OpenTofu state does not belong in this repository
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.plan
