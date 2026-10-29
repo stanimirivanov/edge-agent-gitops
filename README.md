@@ -2,6 +2,7 @@
 
 ## TL;DR
 
+- Development and CI require Linux; see [host support](docs/decisions/0002-support-linux-development-hosts.md).
 - This repository owns reviewed desired state and immutable release selection
   for EdgeAgent environments.
 - It does not build EdgeAgent, provision clusters, install Argo CD, or contain
@@ -9,8 +10,7 @@
 - The repository is at foundation stage and intentionally contains no workload
   manifests: current EdgeAgent binaries do not yet provide a long-running
   runtime or deployment health contract.
-- `make validate` runs the locked, offline repository checks on Windows and
-  Linux.
+- `make validate` runs the locked, offline repository checks on Linux.
 - M09 will add one thin, rendered, policy-checked portable Kubernetes profile
   before any managed-cloud profile is claimed as supported.
 
@@ -39,7 +39,7 @@ The binding boundary is documented in
 
 ## Status
 
-The foundation establishes governance and cross-platform validation only. It
+The foundation establishes governance and Linux validation only. It
 does not imply that an EdgeAgent deployment profile exists. A real profile
 requires source-owned contracts for long-running process behavior, ports,
 health, graceful termination, configuration, dependencies, storage, identity,

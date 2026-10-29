@@ -21,7 +21,7 @@ profiles.
 GitOps work is delivered in this order:
 
 1. Establish repository ownership, contributor policy, architecture decisions,
-   and a cross-platform validation harness.
+   and a Linux validation harness.
 2. Accept source-owned runtime contracts for every deployable and dependency.
 3. Add one thin portable Kubernetes profile plus deterministic rendering,
    schema, policy, secret, signature, provenance, and SBOM gates.
