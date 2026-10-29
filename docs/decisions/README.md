@@ -8,6 +8,7 @@ one change. Accepted decisions are binding until a later ADR supersedes them.
 | ADR | Status | Decision |
 | --- | --- | --- |
 | [ADR-0001](0001-own-edgeagent-consumer-desired-state.md) | Accepted | Own EdgeAgent consumer desired state in this repository |
+| [ADR-0002](0002-support-linux-development-hosts.md) | Accepted | Support Linux development hosts. |
 
 ## When to write an ADR
 
