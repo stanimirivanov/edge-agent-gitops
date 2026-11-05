@@ -30,8 +30,11 @@ def validate_links(root: Path) -> list[str]:
         text = document.read_text(encoding="utf-8")
         for match in LINK_PATTERN.finditer(text):
             raw_target = match.group(1).strip().strip("<>")
-            target = raw_target.split(maxsplit=1)[0]
-            if not target or target.startswith("#"):
+            parts = raw_target.split(maxsplit=1)
+            if not parts:
+                continue
+            target = parts[0]
+            if target.startswith("#"):
                 continue
 
             parsed = urlsplit(target)

@@ -38,3 +38,21 @@ class DocumentationLinkTests(TestCase):
                 validate_links(root),
                 ["README.md: link escapes repository '../outside.md'"],
             )
+
+    def test_empty_destinations_preserve_other_link_diagnostics(self) -> None:
+        for destination in ["", " ", "\t", "<> ", "< >"]:
+            with self.subTest(destination=destination), TemporaryDirectory() as temporary:
+                root = Path(temporary)
+                (root / "README.md").write_text(
+                    f"[empty]({destination}) ![image]({destination}) "
+                    "[missing](missing.md) [outside](../outside.md) [unsupported](file:///tmp/x)\n",
+                    encoding="utf-8",
+                )
+                self.assertEqual(
+                    validate_links(root),
+                    [
+                        "README.md: missing link target 'missing.md'",
+                        "README.md: link escapes repository '../outside.md'",
+                        "README.md: unsupported link 'file:///tmp/x'",
+                    ],
+                )
