@@ -105,8 +105,45 @@ claimed as supported only when it has:
 - install, upgrade, restart, rollback, restore, and drift evidence; and
 - end-to-end synthetic research and dry-run execution acceptance results.
 
-The repository intentionally has no workload manifests yet. Current EdgeAgent
-binaries do not expose a long-running process, port, readiness, liveness,
-graceful-drain, resource, or dependency contract. The first manifest pull
-request MUST add those source-owned contracts and the maintained render,
-schema, policy, and secret-scanning tools that validate them.
+### Local runtime handoff
+
+- **Gateway serving.** The local `serve` command binds an explicitly configured
+  loopback address for one configured operator scope. It checks that the request
+  and outbox tables exist before binding. On SIGINT or SIGTERM, the implementation
+  asks Axum to shut down gracefully, then closes the PostgreSQL pool.
+  The four-process harness exercises local admission and queries. The shutdown
+  sequence is a source contract. A Kubernetes termination budget remains open.
+  See the [Gateway runtime][gateway-runtime] and the [local process gate][local-gate].
+- **Packaged Research owner read.** The Research image includes the matching
+  MarketData executable from the same build at
+  `/edgeagent-owner/edgeagent-market-data`. The Linux image-smoke proof invokes
+  Research `offline-once` against isolated PostgreSQL and JetStream. It uses
+  Docker host networking for loopback dependencies and the invoking non-root
+  UID/GID for the writable owner profile and read-only configuration mounts.
+  The root filesystem is read-only, capabilities are dropped, and no host
+  executable is mounted. The proof records the expected artifact, refusal
+  without the executable, no artifact for foreign evidence, and exact receipt
+  recovery with the owner unavailable. See the [packaged proof contract][owner-proof]
+  and [passing qualification record][f04-qualification].
+
+### Deployment contracts still required
+
+Before the first workload manifests, the source owner must publish deployable
+contracts for process modes, ports, startup, readiness, liveness, drain deadlines,
+and resource budgets. The source and substrate owners must supply inputs for
+workload identity, credential references, and the allowed ingress and dependency
+paths. GitOps must qualify those inputs in the target profile, including Research
+owner access and storage permissions without relying on the local proof's
+host networking or caller UID/GID.
+
+The source owner must also define migration ownership, execution order and
+compatibility across upgrade and rollback. GitOps must demonstrate how the
+profile runs those migrations and recovers state. The first manifest PR must
+include maintained, pinned rendering, schema, policy and secret-scanning tools.
+Local process and image qualification supply evidence for this handoff.
+A supported profile still requires the rendered-state and conformance gates above.
+
+[gateway-runtime]: https://github.com/stanimirivanov/edge-agent/blob/63b5deae5b5d05a7ecdbe4de655e19887fc24c2c/services/gateway/src/runtime.rs
+[local-gate]: https://github.com/stanimirivanov/edge-agent/blob/63b5deae5b5d05a7ecdbe4de655e19887fc24c2c/docs/development/research-processes.md
+[owner-proof]: https://github.com/stanimirivanov/edge-agent/blob/63b5deae5b5d05a7ecdbe4de655e19887fc24c2c/docs/development/research-processes.md#packaged-owner-read
+[f04-qualification]: https://github.com/stanimirivanov/edge-agent/pull/417
